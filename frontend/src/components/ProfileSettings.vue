@@ -1,67 +1,5 @@
 <template>
     <div class="container">
-        <form v-on:submit.prevent="userSettings">
-          <h3>User settings</h3>
-          <div v-if="userError" class="alert alert-danger" role="alert">
-            {{userError}}
-          </div>
-          <div v-if="successUsersSettings" class="alert alert-success" role="alert">
-            User Settings saved!
-          </div>
-          <div class="form-group">
-            <label for="first_name">First name</label>
-            <input
-              required
-              id="first_name"
-              :value="initialVals.first_name"
-              class="form-control"
-              type="text"
-              ref="first_name"
-              name="first_name"
-              placeholder="Enter your first name"
-            />
-          </div>
-          <div class="form-group">
-            <label for="last_name">Last name</label>
-            <input
-              required
-              id="last_name"
-              :value="initialVals.last_name"
-              class="form-control"
-              type="text"
-              ref="last_name"
-              name="last_name"
-              placeholder="Enter your last name"
-            />
-          </div>
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <input
-              required
-              id="email"
-              :value="initialVals.email"
-              placeholder="Enter email"
-              class="form-control"
-              type="email"
-              ref="email"
-              name="email"
-            />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              required
-              class="form-control"
-              id="password"
-              placeholder="Password"
-              type="password"
-              name="new_password"
-              ref="new_password"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Save User Settings</button>
-        </form>
-        <hr />
         <form v-on:submit.prevent="profileSettings">
           <h3>Profile settings</h3>
           <div v-if="profileError">
@@ -215,6 +153,68 @@
             <small id="archivedHelp" class="form-text text-muted">If marked, will make your profile invisible in Employees list.</small>
           </div>
           <button type="submit" class="btn btn-primary">Save Profile Settings</button>
+        </form>
+        <hr/>
+        <form v-on:submit.prevent="userSettings">
+          <h3>User settings</h3>
+          <div v-if="userError" class="alert alert-danger" role="alert">
+            {{userError}}
+          </div>
+          <div v-if="successUsersSettings" class="alert alert-success" role="alert">
+            User Settings saved!
+          </div>
+          <div class="form-group">
+            <label for="first_name">First name</label>
+            <input
+              required
+              id="first_name"
+              :value="initialVals.first_name"
+              class="form-control"
+              type="text"
+              ref="first_name"
+              name="first_name"
+              placeholder="Enter your first name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last name</label>
+            <input
+              required
+              id="last_name"
+              :value="initialVals.last_name"
+              class="form-control"
+              type="text"
+              ref="last_name"
+              name="last_name"
+              placeholder="Enter your last name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input
+              required
+              id="email"
+              :value="initialVals.email"
+              placeholder="Enter email"
+              class="form-control"
+              type="email"
+              ref="email"
+              name="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              required
+              class="form-control"
+              id="password"
+              placeholder="Password"
+              type="password"
+              name="new_password"
+              ref="new_password"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Save User Settings</button>
         </form>
     </div>
 </template>
