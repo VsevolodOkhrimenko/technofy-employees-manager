@@ -47,9 +47,11 @@ class UserViewSet(viewsets.ModelViewSet):
         sector_query = self.request.GET.get('sector', None)
         sort_by = "-"
         sort_by += self.request.GET.get('sort', 'first_name')
-        is_employee = json.loads(self.request.GET.get('is_employee', 'true'))
-        print(skills_query)
-        qs = User.objects.filter(is_employee=is_employee, is_archived=False)
+        is_employee = self.request.GET.get('is_employee', None)
+        qs = User.objects.all()
+        if is_employee != None:
+            is_employee = json.loads(is_employee)
+            qs = qs.filter(is_employee=is_employee, is_archived=False)
         if skills_query:
             qs = qs.filter(skills__name__in=skills_query.split(','))
         if sector_query:

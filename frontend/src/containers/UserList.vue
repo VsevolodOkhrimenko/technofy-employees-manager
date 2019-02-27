@@ -138,6 +138,7 @@ export default {
               self.$set(this, "sortBy", sort);
             }
             else if (x[0] == 'is_employee') {
+              console.log(is_employee === 'false');
               const is_employee = params[j];
               self.$set(this, "notEmployee", is_employee === 'false');
             }
@@ -168,6 +169,8 @@ export default {
         query = `${query}&sort=${self.sortBy}`;
       }
       if (self.notEmployee) {
+        console.log('self.notEmployee')
+        console.log(self.notEmployee)
         query = `${query}&is_employee=${!self.notEmployee}`
       }
       if (self.sector) {
@@ -254,7 +257,6 @@ export default {
   },
   mounted () {
     store.commit('setActiveNav', 'user-list');
-    this.getUserData();
     this.initFilterParams();
   }
 }

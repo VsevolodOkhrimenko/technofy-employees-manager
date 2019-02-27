@@ -171,7 +171,7 @@ def update_stock(sender, instance, **kwargs):
 
     if hasattr(instance, '_dirty'):
         return
-    if instance.ended <= datetime.date.today():
+    if instance.ended and instance.ended <= datetime.date.today():
         instance.is_employee = False
     elif instance.ended == None:
         instance.is_employee = True
