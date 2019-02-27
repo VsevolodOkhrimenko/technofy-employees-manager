@@ -3,10 +3,9 @@ Employees Manager
 
 Full-stack developer test project in technofy
 
-<a href="https://github.com/vchaptsev/cookiecutter-django-vue">
-    <img src="https://img.shields.io/badge/built%20with-Cookiecutter%20Django%20Vue-blue.svg" />
-</a>
-
+## Pre-requirements
+`Docker CE`
 
 ## Development
 + run `docker-compose up --build`
++ import_standartized_skills `docker-compose run backend python manage.py import_standardized_skills`
