@@ -57,7 +57,6 @@ class UserSerializer(serializers.ModelSerializer):
             'registered_at']
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    avatar = serializers.SerializerMethodField(read_only=True)
 
     sector = SectorSerializer(read_only=True)
     skills = SkillSerializer(many=True, read_only=True)

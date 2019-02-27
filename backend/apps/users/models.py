@@ -4,6 +4,8 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from apps.skill.models import Skill
 from apps.sector.models import Sector
@@ -136,8 +138,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def days_in_company(self):
         if self.is_employee:
             delta = datetime.date.today() - self.started
-        else:
+        elif self.ended:
             delta = self.ended - self.started
+        else:
+            delta = datetime.date.today() - self.started
         return f'{delta.days}'
     days_in_company.fget.short_description = 'Days in company'
     
@@ -158,3 +162,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.full_name
+
+
+@receiver(post_save, sender=User)
+def update_stock(sender, instance, **kwargs):
+    if not instance:
+            return
+
+    if hasattr(instance, '_dirty'):
+        return
+    if instance.ended <= datetime.date.today():
+        instance.is_employee = False
+    elif instance.ended == None:
+        instance.is_employee = True
+    else:
+        instance.is_employee = True
+    try:
+        instance._dirty = True
+        instance.save()
+    finally:
+        del instance._dirty
+

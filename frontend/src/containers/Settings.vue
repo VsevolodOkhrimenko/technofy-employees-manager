@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Settings</h2>
     <profile-settings />
   </div>

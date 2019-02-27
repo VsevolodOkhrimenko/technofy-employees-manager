@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <h2>User</h2>
-        <user-retrive-item :user="user"></user-retrive-item>
+    <div class="container">
+      <h2>User</h2>
+      <user-retrive-item :user="user"></user-retrive-item>
     </div>
 </template>
 

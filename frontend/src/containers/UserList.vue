@@ -1,24 +1,45 @@
 <template>
-    <div>
+    <div class="container">
         <h2>User List</h2>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <p>Sort by:</p>
-              <form ref="filter">
-                <select @change="sortChange" :value="sortBy">
+        <div class="row">
+          <div class="col-md-3">
+            <form ref="filter">
+              <h4>Filter</h4>
+              <div class="form-group">
+                <label for="sortSelect">Sort by</label>
+                <select class="form-control" id="sortSelect" @change="sortChange" :value="sortBy">
                   <option value="first_name">Name</option>
                   <option value="salary">Salary</option>
                   <option value="started">Arriving date</option>
                 </select>
-                <p>Filter</p>
-                <p>Sector</p>
-                <input v-model="sector" type="text" ref="sector" list="sectors" @change="sectorChange" @input="sectorAutocomplete"/>
+              </div>
+              <div class="form-group">
+                <label for="sectorInput">Sector</label>
+                <input
+                  id="sectorInput"
+                  class="form-control"
+                  v-model="sector"
+                  type="text"
+                  ref="sector"
+                  list="sectors"
+                  @change="sectorChange"
+                  @input="sectorAutocomplete"
+                />
                 <datalist id="sectors">
                   <option v-for="sector in sectors" :value="sector.value" :text="sector.text"/>
                 </datalist>
-                <p>Skills</p>
-                <input type="text" ref="skill" list="skills" @input="skillAutocomplete" @change="skillChange"/><br>
+              </div>
+              <div class="form-group">
+                <label for="skillsInput">Skills</label>
+                <input
+                  id="skillsInput"
+                  class="form-control"
+                  type="text"
+                  ref="skill"
+                  list="skills"
+                  @input="skillAutocomplete"
+                  @change="skillChange"
+                />
                 <datalist id="skills">
                   <option v-for="skill in skills" :value="skill.value" :text="skill.text"/>
                 </datalist>
@@ -30,25 +51,40 @@
                     :name="skill"
                     class="badge badge-pill badge-success"
                   >
-                    {{skill}}
+                    {{skill}} &#10006;
                   </span>
                 </div>
-                <div class="custom-control custom-checkbox">
-                  <input :checked="notEmployee" @change="notEmployeeChange" type="checkbox" class="custom-control-input" id="notemployee">
-                  <label class="custom-control-label" for="notemployee">No longer in the company</label>
-                </div>
-
-              </form>
-            </div>
-            <div class="col-md-9">
-              <div class="list-group" v-for="user in users">
-                <user-list-item :user="user"></user-list-item>
               </div>
+              <div class="custom-control custom-checkbox">
+                <input :checked="notEmployee" @change="notEmployeeChange" type="checkbox" class="custom-control-input" id="notemployee">
+                <label class="custom-control-label" for="notemployee">No longer in the company</label>
+              </div>
+
+            </form>
+          </div>
+          <div class="col-md-9">
+            <div class="list-group" v-for="user in users">
+              <user-list-item :user="user"></user-list-item>
             </div>
           </div>
         </div>
     </div>
 </template>
+
+<style>
+  form {
+    border: 1px solid #528cba;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .badge-success {
+    padding: .5em .8em;
+  }
+  .badge-success:hover {
+    opacity: .8;
+  }
+</style>
 
 <script>
 import axios from "axios"

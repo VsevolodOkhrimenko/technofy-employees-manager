@@ -2,10 +2,36 @@
     <div>
         <h2>Login</h2>
         <form v-on:submit.prevent="login">
-          <p style="color: red;">{{error}}</p>
-          <input type="email" ref="email" name="email"/><br>
-          <input type="password" name="password" ref="password"/><br>
-          <input type="submit" value="Login"/>
+          <div v-if="error" class="alert alert-danger" role="alert">
+            {{error}}
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input
+              required
+              id="email"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+              class="form-control"
+              type="email"
+              ref="email"
+              name="email"
+            />
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              required
+              class="form-control"
+              id="password"
+              placeholder="Password"
+              type="password"
+              name="password"
+              ref="password"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
 </template>
@@ -45,7 +71,7 @@ export default Vue.component('login', {
             router.push("/");
           })
           .catch((errors) => {
-            self.$set(this, "error", "Invalid login");
+            self.$set(this, "error", "Invalid email or password");
           })
       }
       login();

@@ -49,12 +49,20 @@ class UserViewSet(viewsets.ModelViewSet):
         sort_by += self.request.GET.get('sort', 'first_name')
         is_employee = json.loads(self.request.GET.get('is_employee', 'true'))
         print(skills_query)
-        qs = User.objects.filter(is_employee=is_employee)
+        qs = User.objects.filter(is_employee=is_employee, is_archived=False)
         if skills_query:
             qs = qs.filter(skills__name__in=skills_query.split(','))
         if sector_query:
             qs = qs.filter(sector__name=sector_query)
         return qs.order_by(sort_by).distinct()
+
+    def retrieve(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=pk)
+            serializer = self.serializer_class(user)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        except Skill.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @list_route(methods=['GET'])
     def profile(self, request):
@@ -85,7 +93,9 @@ class UserViewSet(viewsets.ModelViewSet):
         password = request.data.get('password', None)
 
         if User.objects.filter(email__iexact=email).exists():
-            return Response({'status': 210})
+            return Response(
+                {'error': 'User with this email exist'},
+                status=status.HTTP_400_BAD_REQUEST)
 
         # user creation
         user = User.objects.create(
@@ -141,6 +151,11 @@ class UserViewSet(viewsets.ModelViewSet):
             data = request.data.copy()
             del data['skills']
             del data['sector']
+            data['is_archived'] = data['is_archived'] == 'true'
+            if data['ended'] == 'null':
+                data['ended'] = None
+            if data['started'] == 'null':
+                data['started'] = None
             skills = self._normalized_skills(request.data.get('skills', []))
             try:
                 sector_name = request.data.get('sector', '')
@@ -162,7 +177,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @staticmethod
     def _normalized_skills(skill_names):
         skills = []
-        for skill_name in skill_names:
+        for skill_name in skill_names.split(','):
             try:
                 skill_obj = Skill.objects.get(name=skill_name.strip())
             except Skill.DoesNotExist:
