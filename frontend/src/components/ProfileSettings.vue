@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <form v-on:submit.prevent="profileSettings">
+        <form @submit.prevent="profileSettings">
           <h3>Profile settings</h3>
           <div v-if="profileError">
             <div v-for="errors in profileError">
@@ -78,6 +78,7 @@
           <div class="form-group">
             <label for="skillsInput">Skills</label>
             <input
+              @keydown.enter.prevent="skillChange"
               id="skillsInput"
               class="form-control"
               type="text"
@@ -379,6 +380,9 @@ export default Vue.component('profile-settings', {
     skillChange: function(event) {
       event.preventDefault();
       const skill = event.target.value;
+      if (!skill) {
+        return;
+      }
       var self = this;
       let skillsApplyied = self.skillsApplyied;
       var index = skillsApplyied.indexOf(skill);
