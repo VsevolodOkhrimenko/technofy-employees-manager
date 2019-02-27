@@ -257,7 +257,6 @@ export default Vue.component('profile-settings', {
     handleFileUpload: function() {
       let self = this;
       self.$set(this, "avatar", this.$refs.avatar.files[0]);
-      debugger;
     },
     userSettings:  function () {
       let first_name = this.$refs.first_name.value;
@@ -342,7 +341,6 @@ export default Vue.component('profile-settings', {
       axios.get(`/api/users/${store.getters.getUserId}`)
         .then((response) => {
           self.$set(this, "initialVals", response.data);
-          console.log(response.data)
           let skills = response.data.skills;
           let prepared_skills = []
           for (let i = 0; i < skills.length; i += 1) {
@@ -379,6 +377,7 @@ export default Vue.component('profile-settings', {
         })
     },
     skillChange: function(event) {
+      event.preventDefault();
       const skill = event.target.value;
       var self = this;
       let skillsApplyied = self.skillsApplyied;
