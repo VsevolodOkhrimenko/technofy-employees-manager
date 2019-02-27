@@ -15,4 +15,9 @@ RUN pip install -r ./requirements.txt
 # upload scripts
 COPY ./scripts/entrypoint.sh ./scripts/start.sh ./scripts/gunicorn.sh /
 
+# Remove windows ending lines
+RUN sed -i 's/\r//' ./entrypoint.sh
+RUN sed -i 's/\r//' ./start.sh
+RUN sed -i 's/\r//' ./gunicorn.sh
+
 WORKDIR /app
