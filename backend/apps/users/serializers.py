@@ -56,6 +56,7 @@ class UserSerializer(serializers.ModelSerializer):
             'is_archived',
             'registered_at']
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
 
     sector = SectorSerializer(read_only=True)

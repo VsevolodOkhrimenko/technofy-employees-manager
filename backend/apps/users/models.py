@@ -1,6 +1,7 @@
 from uuid import uuid4
 import datetime
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import (BaseUserManager,
+                                        AbstractBaseUser, PermissionsMixin)
 from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
@@ -74,13 +75,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         verbose_name='Work sector')
     skills = models.ManyToManyField(Skill, blank=True)
-    salary = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    salary = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True)
     nationality = models.CharField(
         verbose_name='Nationality',
         max_length=255,
         blank=True,
         null=True)
-    age =  models.PositiveSmallIntegerField(
+    age = models.PositiveSmallIntegerField(
         verbose_name='Age',
         blank=True,
         null=True)
@@ -99,7 +101,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True)
     phone_regex = RegexValidator(
         regex=r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$',
-        message="Phone number must be entered in the format: '+999999999'. Up to 17 digits allowed.")
+        message="""Phone number must be entered in the format:
+                   '+999999999'. Up to 17 digits allowed.""")
     phone_number = models.CharField(
         verbose_name='phone number',
         validators=[phone_regex],
@@ -144,7 +147,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             delta = datetime.date.today() - self.started
         return f'{delta.days}'
     days_in_company.fget.short_description = 'Days in company'
-    
 
     def get_days_in_company(self):
         return self.days_in_company
@@ -173,7 +175,7 @@ def update_stock(sender, instance, **kwargs):
         return
     if instance.ended and instance.ended <= datetime.date.today():
         instance.is_employee = False
-    elif instance.ended == None:
+    elif instance.ended is None:
         instance.is_employee = True
     else:
         instance.is_employee = True
@@ -182,4 +184,3 @@ def update_stock(sender, instance, **kwargs):
         instance.save()
     finally:
         del instance._dirty
-

@@ -16,9 +16,18 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['full_name', 'email']
     fieldsets = [
         ['Auth', {'fields': ['email', 'password']}],
-        ['Personal info', {'fields': ['last_name', 'first_name', 'avatar', 'nationality', 'age', 'address', 'phone_number']}],
-        ['Work related info', {'fields': ['sector', 'skills', 'salary', 'started', 'ended', 'is_employee', 'days_in_company']}],
-        ['Settings', {'fields': ['groups', 'is_archived', 'is_admin', 'is_active', 'is_staff', 'is_superuser']}],
+        ['Personal info', {
+            'fields': [
+                'last_name', 'first_name', 'avatar', 'nationality',
+                'age', 'address', 'phone_number']}],
+        ['Work related info', {
+            'fields': [
+                'sector', 'skills', 'salary', 'started',
+                'ended', 'is_employee', 'days_in_company']}],
+        ['Settings', {
+            'fields': [
+                'groups', 'is_archived', 'is_admin',
+                'is_active', 'is_staff', 'is_superuser']}],
         ['Important dates', {'fields': ['last_login', 'registered_at']}],
     ]
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin

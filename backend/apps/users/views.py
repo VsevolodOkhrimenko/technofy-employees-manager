@@ -1,5 +1,4 @@
 import json
-import requests
 from uuid import uuid4
 
 from django.contrib.auth import authenticate, login
@@ -14,7 +13,8 @@ from rest_framework.response import Response
 from apps.users.models import User
 from apps.sector.models import Sector
 from apps.skill.models import Skill
-from apps.users.serializers import UserSerializer, UserWriteSerializer, UserProfileSerializer
+from apps.users.serializers import (UserSerializer,
+                                    UserWriteSerializer, UserProfileSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -49,7 +49,7 @@ class UserViewSet(viewsets.ModelViewSet):
         sort_by += self.request.GET.get('sort', 'first_name')
         is_employee = self.request.GET.get('is_employee', None)
         qs = User.objects.all()
-        if is_employee != None:
+        if is_employee is not None:
             is_employee = json.loads(is_employee)
             qs = qs.filter(is_employee=is_employee, is_archived=False)
         if skills_query:
@@ -139,7 +139,7 @@ class UserViewSet(viewsets.ModelViewSet):
             if user.email != data['email']:
                 if User.objects.filter(email=data['email']).exists():
                     return Response({'error': "Email exist"},
-                        status=status.HTTP_400_BAD_REQUEST)
+                                    status=status.HTTP_400_BAD_REQUEST)
                 user.email = data['email']
             user.save()
             return Response({'token': user.token}, status=status.HTTP_200_OK)
@@ -165,10 +165,11 @@ class UserViewSet(viewsets.ModelViewSet):
             except Sector.DoesNotExist:
                 sector = Sector(name=sector_name, standardized=False)
                 sector.save()
-            serializer = UserProfileSerializer(instance=user, data=data, partial=True)
+            serializer = UserProfileSerializer(
+                instance=user, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save(
-                skills=skills, sector=sector)
+                    skills=skills, sector=sector)
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors,
