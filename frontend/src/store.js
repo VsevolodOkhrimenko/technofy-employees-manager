@@ -10,44 +10,43 @@ const store = new Vuex.Store({
     userList: [],
     id: localStorage.getItem('myId'),
     activeNav: null,
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('token')
   },
   mutations: {
-    setUserId(state, id) {
-      state.id = id;
-      localStorage.setItem('myId', id);
+    setUserId (state, id) {
+      state.id = id
+      localStorage.setItem('myId', id)
     },
-    changeAuthState(state, isAuth) {
-      state.isAuth = isAuth;
+    changeAuthState (state, isAuth) {
+      state.isAuth = isAuth
       if (!isAuth) {
-        state.id = null;
-        localStorage.removeItem('myId');
+        state.id = null
+        localStorage.removeItem('myId')
       }
-      localStorage.setItem('isAuth', isAuth);
-
+      localStorage.setItem('isAuth', isAuth)
     },
-    setActiveNav(state, page) {
-      state.activeNav = page;
+    setActiveNav (state, page) {
+      state.activeNav = page
     },
-    setAccessToken(state, token) {
-      localStorage.setItem('token', token);
+    setAccessToken (state, token) {
+      localStorage.setItem('token', token)
       state.token = token
-    },
+    }
   },
   actions: {
   },
   getters: {
     getUserId: () => {
-      return store.state.id;
+      return store.state.id
     },
     getActiveNav: () => {
-      return store.state.activeNav;
+      return store.state.activeNav
     },
     getAuthState: () => {
-      return store.state.isAuth;
+      return store.state.isAuth
     },
     getAccessToken: () => {
-      return store.state.token;
+      return store.state.token
     }
   }
 })

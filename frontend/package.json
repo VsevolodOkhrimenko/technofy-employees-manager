@@ -36,7 +36,7 @@
       },
       "extends": [
         "plugin:vue/essential",
-        "@vue/standard"
+        "standard"
       ],
       "rules": {},
       "parserOptions": {
