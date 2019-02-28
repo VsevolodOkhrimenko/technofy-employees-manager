@@ -43,6 +43,7 @@ export default {
   },
   mounted () {
     store.commit('changeAuthState', false);
+    store.commit('setAccessToken', null);
   }
 }
 </script>
